@@ -1,0 +1,600 @@
+/* =========================================================
+   Modern Reset
+========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* =========================================================
+   CSS Custom Properties
+========================================================= */
+:root {
+  color-scheme: light;
+  --color-primary: #1e3a8a;
+  --color-accent: #4f46e5;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+  --color-border: rgba(15, 23, 42, 0.12);
+  --color-border-strong: rgba(15, 23, 42, 0.18);
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-focus: rgba(59, 130, 246, 0.18);
+  --shadow-soft: 0 15px 35px rgba(30, 64, 175, 0.15);
+  --shadow-glow: 0 20px 45px rgba(79, 70, 229, 0.2);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-surface: #0f172a;
+    --color-surface-muted: #1e293b;
+    --color-border: rgba(148, 163, 184, 0.25);
+    --color-border-strong: rgba(148, 163, 184, 0.35);
+    --color-text: #f8fafc;
+    --color-text-muted: #cbd5e1;
+    --color-focus: rgba(59, 130, 246, 0.25);
+    --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.8);
+    --shadow-glow: 0 18px 40px rgba(37, 99, 235, 0.35);
+  }
+}
+
+/* =========================================================
+   Base Elements
+========================================================= */
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--color-text);
+  background:
+    linear-gradient(135deg, rgba(248, 250, 252, 0.98), rgba(231, 238, 255, 0.92)),
+    radial-gradient(circle at 18% 20%, rgba(59, 130, 246, 0.12), transparent 55%);
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 10%, rgba(255, 255, 255, 0.28), transparent 55%),
+    radial-gradient(circle at 70% 90%, rgba(59, 130, 246, 0.18), transparent 55%);
+  animation: aurora 18s ease-in-out infinite alternate;
+  opacity: 0.22;
+  z-index: -1;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+::selection {
+  background: rgba(79, 70, 229, 0.2);
+  color: var(--color-primary);
+}
+
+/* =========================================================
+   Buttons
+========================================================= */
+button,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  transition: all 0.25s ease;
+  border: none;
+  background-color: #2563eb !important; /* Blue background */
+  background: #2563eb !important; /* Blue background */
+  color: #ffffff !important; /* White text */
+  box-shadow: var(--shadow-soft);
+  opacity: 1;
+  visibility: visible;
+}
+
+button:hover,
+.btn:hover,
+button:not(:disabled):hover,
+.btn:not(:disabled):hover {
+  background-color: #1e40af !important; /* Darker blue on hover */
+  background: #1e40af !important; /* Darker blue on hover */
+  color: #ffffff !important; /* Keep white text */
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+  opacity: 1;
+  visibility: visible;
+}
+
+button:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid rgba(79, 70, 229, 0.25);
+  outline-offset: 2px;
+}
+
+button:disabled,
+.btn:disabled,
+button[disabled],
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Ensure all buttons are visible on hover and have blue styling */
+button:hover,
+.btn:hover,
+button[class*="hover"]:hover,
+.btn[class*="hover"]:hover,
+button[class*="bg-gradient"]:hover,
+button[class*="bg-primary"]:hover,
+button[class*="from-primary"]:hover {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
+  background-color: #1e40af !important; /* Darker blue on hover */
+  background: #1e40af !important; /* Darker blue on hover */
+  color: #ffffff !important; /* White text */
+}
+
+/* Override gradient buttons to use solid blue */
+button[class*="bg-gradient"],
+button[class*="from-primary"],
+.btn[class*="bg-gradient"],
+.btn[class*="from-primary"] {
+  background-color: #2563eb !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+.btn-outline {
+  background: #ffffff !important;
+  color: #2563eb !important;
+  border: 2px solid #2563eb !important;
+  box-shadow: none;
+}
+
+.btn-outline:hover {
+  background: #1e40af !important; /* Darker blue on hover */
+  color: #ffffff !important;
+  border-color: #1e40af !important;
+}
+
+.btn-ghost {
+  background: transparent !important;
+  color: #2563eb !important;
+  border: none;
+  box-shadow: none;
+}
+
+.btn-ghost:hover {
+  background: rgba(37, 99, 235, 0.15) !important; /* Light blue background on hover */
+  color: #1e40af !important; /* Darker blue text on hover */
+}
+
+.btn-sm {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.85rem;
+}
+
+.btn-lg {
+  padding: 0.9rem 1.8rem;
+  font-size: 1rem;
+}
+
+/* =========================================================
+   Cards, Chips & Tables
+========================================================= */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 2rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--color-primary);
+}
+
+.status-chip.success {
+  background: rgba(34, 197, 94, 0.16);
+  color: #15803d;
+}
+
+.status-chip.warning {
+  background: rgba(250, 204, 21, 0.19);
+  color: #b45309;
+}
+
+.status-chip.danger {
+  background: rgba(248, 113, 113, 0.18);
+  color: #b91c1c;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+thead {
+  background: rgba(30, 64, 175, 0.12);
+  color: var(--color-primary);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+tbody tr:hover {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+/* =========================================================
+   Form Elements
+========================================================= */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(148, 163, 184, 0.35);
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  appearance: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(100, 116, 139, 0.6);
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: 0 0 0 4px var(--color-focus);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background-color: #f1f5f9;
+  color: rgba(100, 116, 139, 0.6);
+  cursor: not-allowed;
+}
+
+select {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(79, 70, 229, 0.75) 50%),
+    linear-gradient(135deg, rgba(79, 70, 229, 0.75) 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.2rem) calc(50% - 0.2rem),
+    calc(100% - 0.8rem) calc(50% - 0.2rem);
+  background-size: 0.45rem 0.45rem;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+}
+
+select:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+select:focus {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  background-position:
+    calc(100% - 1.2rem) calc(50% - 0.4rem),
+    calc(100% - 0.8rem) calc(50% - 0.4rem);
+}
+
+select option {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(148, 163, 184, 0.35);
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: rgba(100, 116, 139, 0.6);
+}
+
+.form-control:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: 0 0 0 4px var(--color-focus);
+}
+
+.form-control[disabled],
+.form-control[readonly] {
+  background-color: #f1f5f9;
+  color: rgba(100, 116, 139, 0.6);
+  cursor: not-allowed;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+  display: inline-block;
+}
+
+.form-help {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: rgba(100, 116, 139, 0.8);
+}
+
+.form-error {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: #dc2626;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  top: 50%;
+  right: 1rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-right: 2px solid rgba(79, 70, 229, 0.75);
+  border-bottom: 2px solid rgba(79, 70, 229, 0.75);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Force white background and black text for inputs and selects even in dark mode */
+input,
+textarea,
+select,
+.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+select option {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+input option,
+select option {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Override Tailwind classes for form elements */
+input.bg-white,
+input.bg-gray-50,
+input.bg-gray-100,
+select.bg-white,
+select.bg-gray-50,
+select.bg-gray-100,
+textarea.bg-white,
+textarea.bg-gray-50,
+textarea.bg-gray-100 {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+input.text-gray-800,
+input.text-gray-900,
+input.text-dark,
+select.text-gray-800,
+select.text-gray-900,
+select.text-dark,
+textarea.text-gray-800,
+textarea.text-gray-900,
+textarea.text-dark {
+  color: #000000 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Keep inputs and selects white in dark mode too */
+  input,
+  textarea,
+  select,
+  .form-control {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: rgba(148, 163, 184, 0.35);
+  }
+
+  input option,
+  select option {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder,
+  .form-control::placeholder {
+    color: rgba(100, 116, 139, 0.6);
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus,
+  .form-control:focus {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-focus);
+  }
+
+  input:disabled,
+  textarea:disabled,
+  select:disabled,
+  .form-control[disabled],
+  .form-control[readonly] {
+    background-color: #f1f5f9 !important;
+    color: rgba(100, 116, 139, 0.6) !important;
+  }
+
+  button,
+  .btn {
+    background-color: #2563eb !important; /* Blue background */
+    background: #2563eb !important; /* Blue background */
+    color: #ffffff !important; /* White text */
+    box-shadow: 0 18px 40px rgba(37, 99, 235, 0.35);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  button:hover,
+  .btn:hover,
+  button:not(:disabled):hover,
+  .btn:not(:disabled):hover {
+    background-color: #1e40af !important; /* Darker blue on hover */
+    background: #1e40af !important; /* Darker blue on hover */
+    color: #ffffff !important; /* White text */
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* =========================================================
+   Scrollbar Styling
+========================================================= */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.85), rgba(99, 102, 241, 0.85));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(79, 70, 229, 0.9));
+}
+
+/* =========================================================
+   Animations
+========================================================= */
+@keyframes aurora {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, 1%, 0) scale(1.02);
+  }
+  100% {
+    transform: translate3d(-1%, 0, 0) scale(0.99);
+  }
+}
