@@ -2,10 +2,6 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-if (!API_BASE_URL) {
-  console.error("❌ VITE_API_URL is not defined in the environment variables!");
-}
-
 // Ensure API_BASE_URL includes /api
 let baseURL = API_BASE_URL;
 if (baseURL) {
@@ -15,6 +11,10 @@ if (baseURL) {
   if (!baseURL.includes("/api")) {
     baseURL = `${baseURL}/api`;
   }
+} else {
+  // Fallback for development - use local backend
+  baseURL = "http://localhost:5000/api";
+  console.warn("⚠️ VITE_API_URL is not defined. Using default: http://localhost:5000/api");
 }
 
 const api = axios.create({
@@ -24,6 +24,11 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// Log the base URL in development for debugging
+if (import.meta.env.DEV) {
+  console.log("🔗 API Base URL:", baseURL);
+}
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("admission_portal_token");
