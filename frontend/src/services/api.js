@@ -6,8 +6,19 @@ if (!API_BASE_URL) {
   console.error("❌ VITE_API_URL is not defined in the environment variables!");
 }
 
+// Ensure API_BASE_URL includes /api
+let baseURL = API_BASE_URL;
+if (baseURL) {
+  // Remove trailing slash if present
+  baseURL = baseURL.replace(/\/$/, "");
+  // Add /api if not already present
+  if (!baseURL.includes("/api")) {
+    baseURL = `${baseURL}/api`;
+  }
+}
+
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: baseURL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
