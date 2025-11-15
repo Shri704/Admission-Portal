@@ -19,13 +19,20 @@ export default function AdminLogin() {
     event.preventDefault();
     try {
       const data = await login(form);
-      if (data.role !== "admin") {
+      if (data && data.role !== "admin") {
         showToast("Access denied. Admin credentials required.", "error");
         return;
       }
-      navigate("/admin/dashboard", { replace: true });
+      if (data && data.role === "admin") {
+        navigate("/admin/dashboard", { replace: true });
+      }
     } catch (error) {
       console.error("Admin login failed", error);
+      // Error message is already shown by AuthContext, but we can add additional handling here if needed
+      const errorMessage = error.response?.data?.message || error.message || "Login failed. Please check your credentials.";
+      if (!error.response?.data?.message) {
+        showToast(errorMessage, "error");
+      }
     }
   };
 
@@ -53,9 +60,14 @@ export default function AdminLogin() {
             ⚠️ Audit logging enabled for all admin actions.
           </p>
           <p className="leading-relaxed">
-            Use credentials provided by your institution’s super-admin. Enable MFA in your security
+            Use credentials provided by your institution's super-admin. Enable MFA in your security
             settings for added protection.
           </p>
+          {process.env.NODE_ENV === "development" && (
+            <p className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-blue-800 text-xs mt-2">
+              💡 Default credentials: admin@admp.com / Adminp@1234 (if not changed)
+            </p>
+          )}
         </div>
       </section>
 

@@ -120,7 +120,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("Invalid email or password. Please check your credentials and try again.");
+    throw new Error("Invalid email or password. Please check your credentials and try again. If you're an admin, ensure your account exists in the database.");
   }
 
   // Check if user account is active (for students)
