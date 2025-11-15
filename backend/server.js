@@ -59,6 +59,9 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://admission-portal-chi.vercel.app",
+  "https://admission-portal-neon.vercel.app",
+  // Allow all Vercel preview deployments
+  /^https:\/\/admission-portal-.*\.vercel\.app$/,
   // Add more origins as needed
 ];
 
@@ -68,7 +71,17 @@ app.use(
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       
-      if (allowedOrigins.indexOf(origin) !== -1) {
+      // Check if origin is in allowedOrigins array
+      const isAllowed = allowedOrigins.some(allowedOrigin => {
+        if (typeof allowedOrigin === 'string') {
+          return allowedOrigin === origin;
+        } else if (allowedOrigin instanceof RegExp) {
+          return allowedOrigin.test(origin);
+        }
+        return false;
+      });
+      
+      if (isAllowed) {
         callback(null, true);
       } else {
         // In development, allow any localhost origin
@@ -80,6 +93,8 @@ app.use(
       }
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   })
 );
 
