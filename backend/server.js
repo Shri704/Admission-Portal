@@ -53,10 +53,32 @@ app.use(cookieParser());
 app.use(compression());
 app.use(helmet());
 
-// CORS setup
+// CORS setup - Allow multiple origins
+const allowedOrigins = [
+  config.clientUrl || "http://localhost:5173",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://admission-portal-chi.vercel.app",
+  // Add more origins as needed
+];
+
 app.use(
   cors({
-    origin: config.clientUrl || "http://localhost:5173",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        // In development, allow any localhost origin
+        if (config.nodeEnv === "development" && origin.includes("localhost")) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      }
+    },
     credentials: true,
   })
 );
