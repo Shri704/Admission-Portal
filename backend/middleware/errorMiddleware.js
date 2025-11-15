@@ -17,6 +17,13 @@ export const errorHandler = (err, req, res, next) => {
     query: req.query,
   });
 
+  // Ensure CORS headers are set even on errors
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+
   res.status(statusCode).json({
     success: false,
     message: err.message || "Internal Server Error",

@@ -51,7 +51,14 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compression());
-app.use(helmet());
+
+// Configure Helmet to work with CORS
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
 // CORS setup - Allow multiple origins
 const allowedOrigins = [
@@ -60,9 +67,6 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://admission-portal-chi.vercel.app",
   "https://admission-portal-neon.vercel.app",
-  // Allow all Vercel preview deployments
-  /^https:\/\/admission-portal-.*\.vercel\.app$/,
-  // Add more origins as needed
 ];
 
 app.use(
@@ -71,30 +75,30 @@ app.use(
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       
-      // Check if origin is in allowedOrigins array
-      const isAllowed = allowedOrigins.some(allowedOrigin => {
-        if (typeof allowedOrigin === 'string') {
-          return allowedOrigin === origin;
-        } else if (allowedOrigin instanceof RegExp) {
-          return allowedOrigin.test(origin);
-        }
-        return false;
-      });
-      
-      if (isAllowed) {
-        callback(null, true);
-      } else {
-        // In development, allow any localhost origin
-        if (config.nodeEnv === "development" && origin.includes("localhost")) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
+      // Check exact matches first
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
       }
+      
+      // Allow all Vercel preview deployments
+      if (origin.match(/^https:\/\/admission-portal-.*\.vercel\.app$/)) {
+        return callback(null, true);
+      }
+      
+      // In development, allow any localhost origin
+      if (config.nodeEnv === "development" && origin.includes("localhost")) {
+        return callback(null, true);
+      }
+      
+      // Log blocked origin for debugging
+      logInfo(`CORS blocked origin: ${origin}`);
+      // Reject the request
+      callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposedHeaders: ['Content-Range', 'X-Content-Range'],
   })
 );
 
